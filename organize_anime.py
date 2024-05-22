@@ -4,6 +4,7 @@ import anitopy
 import logging
 from modules.mover import Mover
 from modules.util import Util
+from yaml import safe_load as yaml_safe_load
 
 logging.basicConfig(
     filename="organise_anime.log", 
@@ -11,9 +12,15 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S',
     format='%(asctime)s - %(levelname)s - %(message)s')
 
-SRC_PATH = "/home/user/src"
-DEST_PATH = "/home/user/dest"
-exts = ['.mkv']
+try:
+    with open('config.yaml', 'r') as file:
+        config = yaml_safe_load(file)
+except IOError:
+    exit('Config.yaml file could not be found. Create yaml file using config_example.yaml')
+
+SRC_PATH = config['options']['src_path']
+DEST_PATH = config['options']['dest_path']
+exts = config['options']['extension_to_organize']
 
 mover = Mover(SRC_PATH, DEST_PATH)
 

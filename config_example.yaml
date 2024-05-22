@@ -1,0 +1,6 @@
+options:
+  src_path: "/home/user/src"
+  dest_path: "/home/user/dest"
+  extension_to_organize:
+    - .mkv
+    - .avi
