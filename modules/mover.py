@@ -1,5 +1,6 @@
 import os, logging
 from modules.util import Util
+import shutil
 
 logging = logging.getLogger()
 
@@ -12,7 +13,7 @@ class Mover:
         src_dir_path = self.src_path + "/" + folder_name
         target_dest_folder_path = self.dest_path + "/" + folder_name
         
-        os.rename(src_dir_path, target_dest_folder_path)
+        shutil.move(src_dir_path, target_dest_folder_path)
 
         logging.info("Moving " + folder_name)
         logging.info("Folder source: " + src_dir_path)
@@ -28,7 +29,7 @@ class Mover:
         logging.info("File destination: " + target_dest_path_file)
 
         self.init_directory(target_dest_path_dir)
-        os.rename(src_file_path, target_dest_path_file)
+        shutil.move(src_file_path, target_dest_path_file)
     
     def init_directory(self, dir_path):
         if not os.path.exists(dir_path): 
