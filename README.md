@@ -1,1 +1,1 @@
-# organize-anime
+# Lightweight anime organizer
