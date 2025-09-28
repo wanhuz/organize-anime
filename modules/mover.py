@@ -10,12 +10,26 @@ class Mover:
         self.dest_path = dest_path
 
     def move_directory(self, folder_name):
-        src_dir_path = self.src_path + "/" + folder_name
-        target_dest_folder_path = self.dest_path + "/" + folder_name
-        
-        shutil.move(src_dir_path, target_dest_folder_path)
+        src_dir_path = os.path.join(self.src_path, folder_name)
+        target_dest_folder_path = os.path.join(self.dest_path, folder_name)
 
-        logging.info("Moving " + folder_name)
+        if os.path.exists(target_dest_folder_path):
+            # Merge contents instead of nesting
+            for item in os.listdir(src_dir_path):
+                s = os.path.join(src_dir_path, item)
+                d = os.path.join(target_dest_folder_path, item)
+
+                if os.path.isdir(s):
+                    shutil.copytree(s, d, dirs_exist_ok=True)  # Python 3.8+
+                    shutil.rmtree(s)
+                else:
+                    shutil.move(s, d)
+
+            shutil.rmtree(src_dir_path)  # remove empty source dir
+        else:
+            shutil.move(src_dir_path, target_dest_folder_path)
+
+        logging.info("Merging/Moving " + folder_name)
         logging.info("Folder source: " + src_dir_path)
         logging.info("Folder destination: " + target_dest_folder_path)
 
